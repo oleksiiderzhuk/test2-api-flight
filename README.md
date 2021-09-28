@@ -8,3 +8,6 @@ php artisan make:migration create_flight_customer
 
 php artisan migrate
 
+composer require laravel/helpers
+
+php artisan db:seed
