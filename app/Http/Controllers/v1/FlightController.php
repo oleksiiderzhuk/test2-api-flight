@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+use App\Services\v1\FlightService;
 
 class FlightController extends Controller
 {
+    protected $flights;
+    public function __construct(FlightService $service) {
+        $this->flights = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +24,9 @@ class FlightController extends Controller
     {
         //call service
         //return data
+        $data = $this->flights->getFlights();
+
+        return response()->json($data);
     }
 
     /**

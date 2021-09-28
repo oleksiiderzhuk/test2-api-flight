@@ -15,3 +15,5 @@ php artisan db:seed
 #Start making API
 
 php artisan make:controller v1/FlightController --resource
+
+php artisan make:provider v1/FlightServiceProvider
