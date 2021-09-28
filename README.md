@@ -11,3 +11,7 @@ php artisan migrate
 composer require laravel/helpers
 
 php artisan db:seed
+
+#Start making API
+
+php artisan make:controller v1/FlightController --resource
