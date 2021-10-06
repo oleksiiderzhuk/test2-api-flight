@@ -2,6 +2,7 @@
 
 namespace App\Providers\v1;
 
+use App\Services\v1;
 use Illuminate\Support\ServiceProvider;
 
 class FlightServiceProvider extends ServiceProvider
@@ -13,7 +14,9 @@ class FlightServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(FlightService::class, function($app){
+            return new FlightService();
+        });
     }
 
     /**

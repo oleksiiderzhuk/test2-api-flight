@@ -3,10 +3,29 @@
 namespace App\Services\v1;
 
 use App\Flight;
+use App\Providers\v1\FlightServiceProvider;
 
 class FlightService{
-    public function getFlights(){
-        return $this->filterFlights(Flight::all()); 
+    
+    protected $supportedIncludes = [
+        'arrivalAirport' => 'arrival',
+        'departureAirport' => 'departure'
+    ];
+
+    public function getFlights($parameters){
+        if (empty($parameters)){
+            return $this->filterFlights(Flight::all()); 
+        }
+
+        $withKeys = [];
+
+        if (isset($parameters['include'])){
+            $includeParms = explode(',', $parameters['include']);
+            $includes = array_intersect($this->supportedIncludes, $includeParms);
+            $withKeys = array_keys($includes);
+        }
+
+        return $this->filterFlights(Flight::with(withKeys)->get())
     }
 
     public function getFlight($flightNumber){
