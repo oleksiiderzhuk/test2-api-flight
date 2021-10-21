@@ -25,22 +25,42 @@ class FlightService{
             $withKeys = array_keys($includes);
         }
 
-        return $this->filterFlights(Flight::with(withKeys)->get())
+        return $this->filterFlights(Flight::with($withKeys)->get());
     }
 
     public function getFlight($flightNumber){
         return $this->filterFlights(Flight::where('flightNumber', $flightNumber)->get()); 
     }
 
-    protected function filterFlights($flights){
+    protected function filterFlights($flights, $keys = []){
         $data = [];
 
         foreach ($flights as $flight){
-            $entry = [
+            $entry = [ 
                 'flightNumber' => $flight->flightNumber,
                 'href' => route('flights.show', $flight->flightNumber),
                 'status' => $flight->status,
             ];
+
+            if(in_array('arrivalAirport', $keys)){
+                $entry['arrival'] = [
+                    'datetime' => $flight->arrivalDate,
+                    'iataCode' => $flight->arrivalAirport->iataCode,
+                    'city' => $flight->arrivalAirport->city,
+                    'state' => $flight->arrivalAirport->state,
+                ];
+            }
+
+            if(in_array('departureAirport', $keys)){
+                $entry['departure'] = [
+                    'datetime' => $flight->departureDate,
+                    'iataCode' => $flight->departurelAirport->iataCode,
+                    'city' => $flight->departureAirport->city,
+                    'state' => $flight->departureAirport->state,
+                ];
+            }
+
+            
 
             $data[] = $entry;
         }
