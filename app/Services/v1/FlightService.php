@@ -37,7 +37,7 @@ class FlightService{
 
         foreach ($flights as $flight){
             $entry = [ 
-                'flightNumber' => $flight->flightNumber,
+                'Flight#' => $flight->flightNumber,
                 'href' => route('flights.show', $flight->flightNumber),
                 'status' => $flight->status,
             ];
